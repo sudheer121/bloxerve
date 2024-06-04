@@ -1,0 +1,25 @@
+blocks
+- block_number integer
+- status
+- block_hash
+- parent_hash
+- timestamp integer 
+
+
+transactions
+- block_id (foreign key)
+- type enum
+- transaction_hash
+- actual_fee_amount
+- actual_fee_unit
+- execution_status enum
+- finality_status enum
+- jsonb
+  - execution_resources {}
+  - calldata []
+- position int // index in block #gbt
+- sender_address #gbt
+- max_fee #gbt
+- nonce #gbt
+- version #gbt
+
