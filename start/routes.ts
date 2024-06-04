@@ -14,3 +14,15 @@ router.get('/', async () => {
     hello: 'world',
   }
 })
+
+router.get('/txns', async () => {
+  return {
+    hello: 'world',
+  }
+})
+
+router.get('/tx', async () => {
+  return {
+    hello: 'world',
+  }
+})

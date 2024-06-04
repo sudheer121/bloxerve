@@ -1,0 +1,51 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "type": "INVOKE",
+    "transaction_hash": "0x66a4f1a74a3f257481404b52af44ece284f5999b361867fe04d223bab29f27b",
+    "actual_fee": {
+      "amount": "0x18553903eac5d8",
+      "unit": "FRI"
+    },
+    "execution_status": "SUCCEEDED",
+    "finality_status": "ACCEPTED_ON_L2",
+    "block_hash": "0x21a3764d05339748b3945a6bddc69f2f8bf9e12be59c73d05872e86691b869a",
+    "block_number": 646086,
+    "messages_sent": [],
+    "events": [
+      {
+        "from_address": "0x5dd3d2f4429af886cd1a3b08289dbcea99a294197e9eb43b0e0325b4b",
+        "keys": ["0x96982abd597114bdaa4a60612f87fabfcc7206aa12d61c50e7ba1e6c291100"],
+        "data": [
+          "0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+          "0x53c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+          "0x20c49ba5e353f80000000000000000",
+          "0x3e8",
+          "0x0",
+          "0x9592c",
+          "0x2e0af29598b407c8716b17f6d2795eca1b471413fa03fb145a5e33722184067",
+          "0x1a14838",
+          "0x1",
+          "0x1a105d0",
+          "0x1",
+          "0x792d6e465a255",
+          "0x1",
+          "0xc4d",
+          "0x1"
+        ]
+      }
+    ],
+    "execution_resources": {
+      "steps": 68094,
+      "pedersen_builtin_applications": 178,
+      "range_check_builtin_applications": 2300,
+      "bitwise_builtin_applications": 54,
+      "ec_op_builtin_applications": 3,
+      "data_availability": {
+        "l1_gas": 0,
+        "l1_data_gas": 960
+      }
+    }
+  },
+  "id": 1
+}
