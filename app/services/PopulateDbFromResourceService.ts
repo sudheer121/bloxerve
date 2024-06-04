@@ -1,8 +1,9 @@
 import Block from '#models/Block'
 import Transaction from '#models/Transaction'
 import BlockTransactions from '../external/resources/BlockTransactions.ts'
+import TransactionReceipt from '../external/resources/TransactionReceipt.ts'
 
-export default class PopulateData {
+export default class PopulateDbFromResourceService {
   async fromBlockTransactionResource(blkt: BlockTransactions) {
     const blockExists = await Block.findBy('block_number', blkt.block_number)
     if (blockExists) return
@@ -21,10 +22,6 @@ export default class PopulateData {
           block_id: block.id,
           type: transaction.type,
           transaction_hash: transaction.transaction_hash,
-          // actual_fee_amount: transaction.actual_fee_amount,
-          // actual_fee_unit: transaction.actual_fee_unit,
-          // execution_status: transaction.execution_status,
-          // finality_status: transaction.finality_status,
           meta: {
             calldata: transaction.calldata,
           },
@@ -38,5 +35,16 @@ export default class PopulateData {
     )
 
     return block
+  }
+
+  async fromTransactionReceiptResource(tr: TransactionReceipt) {
+    const transaction = await Transaction.findByOrFail('transaction_hash', tr.transaction_hash)
+    transaction.finality_status = tr.finality_status
+    transaction.execution_status = tr.execution_status
+    transaction.actual_fee_amount = tr.actual_fee?.amount
+    transaction.actual_fee_unit = tr.actual_fee?.unit
+    transaction.meta = transaction.meta ?? {}
+    transaction.meta.executionResources = tr.execution_resources
+    return await transaction.save()
   }
 }

@@ -16,7 +16,7 @@ export default interface TransactionReceipt {
   block_hash: string
   block_number: number
   messages_sent: []
-  events: []
+  events: TransactionEvent[]
   execution_resources: ExecutionResources
 }
 
@@ -30,4 +30,10 @@ export interface ExecutionResources {
     l1_gas: number
     l1_data_gas: number
   }
+}
+
+export interface TransactionEvent {
+  from_address: string
+  keys: string[]
+  data: string[]
 }
