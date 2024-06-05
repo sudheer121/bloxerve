@@ -4,7 +4,7 @@ import {
   TransactionType,
 } from '../../types.ts'
 
-export default interface TransactionReceipt {
+export default interface SnetTransactionReceipt {
   type: TransactionType
   transaction_hash: string
   actual_fee: {

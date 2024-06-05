@@ -11,6 +11,7 @@ import PopulateDbFromResourceService from '#services/PopulateDbFromResourceServi
 import ScrapeAndPopulate from '#services/ScrapeAndPopulate'
 import ScraperService from '#services/ScraperService'
 import router from '@adonisjs/core/services/router'
+const TransactionsController = () => import('#controllers/TransactionsController')
 
 router.get('/', async () => {
   const scraper = new ScraperService()
@@ -22,14 +23,5 @@ router.get('/', async () => {
   }
 })
 
-router.get('/txns', async () => {
-  return {
-    hello: 'world',
-  }
-})
-
-router.get('/tx', async () => {
-  return {
-    hello: 'world',
-  }
-})
+router.get('/txns', [TransactionsController, 'index'])
+router.get('/txns/:hashId', [TransactionsController, 'show'])

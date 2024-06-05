@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import { TransactionExecutionStatus, TransactionFinalityStatus, TransactionType } from '../types.ts'
-import { ExecutionResources } from '../external/resources/TransactionReceipt.ts'
+import { ExecutionResources } from '../external/resources/SnetTransactionReceipt.ts'
+import Block from './Block.ts'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class Transaction extends BaseModel {
   @column({ isPrimary: true })
@@ -11,7 +13,7 @@ export default class Transaction extends BaseModel {
   declare block_id: number
 
   @column()
-  declare type: TransactionType
+  declare type: number | null
 
   @column()
   declare transaction_hash: string
@@ -54,4 +56,7 @@ export default class Transaction extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @belongsTo(() => Block, { foreignKey: 'block_id' })
+  declare block: BelongsTo<typeof Block>
 }

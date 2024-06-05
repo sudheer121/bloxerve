@@ -4,11 +4,11 @@ export enum BlockStatus {
 }
 
 export enum TransactionType {
-  INVOKE,
-  DECLARE,
-  DEPLOY,
-  DEPLOY_ACCOUNT,
-  L1_HANDLER,
+  INVOKE = 1,
+  DECLARE = 2,
+  DEPLOY = 0,
+  DEPLOY_ACCOUNT = 4,
+  L1_HANDLER = 3,
 }
 
 export enum TransactionExecutionStatus {

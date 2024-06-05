@@ -1,5 +1,5 @@
-import BlockTransactions from '../external/resources/BlockTransactions.ts'
-import TransactionReceipt from '../external/resources/TransactionReceipt.ts'
+import SnetBlockTxns from '../external/resources/SnetBlockTxns.ts'
+import TransactionReceipt from '../external/resources/SnetTransactionReceipt.ts'
 import { ScrapedResponse } from '../types.ts'
 
 export default class ScraperService {
@@ -8,7 +8,7 @@ export default class ScraperService {
   METHOD_SNET_GET_TRANSACTION_RECEIPT = 'starknet_getTransactionReceipt'
   METHOD_SNET_BLOCK_NUMBER = 'starknet_blockNumber'
 
-  async getBlockWithTransactions(blockNumber: number): Promise<ScrapedResponse<BlockTransactions>> {
+  async getBlockWithTransactions(blockNumber: number): Promise<ScrapedResponse<SnetBlockTxns>> {
     const response = await fetch(this.API_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

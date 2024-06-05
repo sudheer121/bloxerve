@@ -8,7 +8,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.integer('block_id').unsigned().references('blocks.id').onDelete('CASCADE')
-      table.enum('type', Object.values(TransactionType))
+      table.smallint('type').nullable()
       table.string('transaction_hash')
       table.string('actual_fee_amount').nullable()
       table.string('actual_fee_unit').nullable()

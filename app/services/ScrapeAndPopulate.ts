@@ -9,18 +9,25 @@ export default class ScrapeAndPopulate {
 
   async forBlockNumber(blockNumber: number) {
     const blockTxns = await this.scraperService.getBlockWithTransactions(blockNumber)
-    await this.populateService.fromBlockTransactionResource(blockTxns.result)
+    const block = await this.populateService.fromBlockTransactionResource(blockTxns.result)
 
-    const txnHashes = blockTxns.result.transactions.map((t) => t.transaction_hash)
+    if (!block) return
+    const blockTxnsTranscationParts = blockTxns.result.transactions
 
     // async await sequentially
-    for (const txnHash of txnHashes) {  // eslint-disable-line
-      console.log('Scraping for: ', txnHash)
-      if (!txnHash) continue
-      const txn = await this.scraperService.getTransactionReceipt(txnHash)
-      await this.populateService.fromTransactionReceiptResource(txn.result)
+    let idx = 0
+    for (const txnPart of blockTxnsTranscationParts) {
+      if (!txnPart.transaction_hash) continue
+      const txnReceipt = await this.scraperService.getTransactionReceipt(txnPart.transaction_hash)
+      await this.populateService.fromTransactionReceiptResource(
+        block?.id,
+        idx,
+        txnPart,
+        txnReceipt.result
+      )
 
       // avoiding timeouts
+      idx += 1
       await this.sleep(1000)
     }
   }

@@ -1,6 +1,6 @@
 import { BlockStatus, TransactionType } from '../../types.ts'
 
-export default interface BlockTransactions {
+export default interface SnetBlockTxns {
   status: BlockStatus
   block_hash: string
   parent_hash: string
@@ -18,14 +18,16 @@ export default interface BlockTransactions {
   }
   l1_da_mode: string
   starknet_version: string
-  transactions: Partial<{
-    transaction_hash: string
-    type: TransactionType
-    version: string
-    nonce: string
-    max_fee: string
-    sender_address: string
-    signature: string[]
-    calldata: string[]
-  }>[]
+  transactions: Partial<SnetBlockTxnsPartTransaction>[]
+}
+
+export interface SnetBlockTxnsPartTransaction {
+  transaction_hash: string
+  type: TransactionType
+  version: string
+  nonce: string
+  max_fee: string
+  sender_address: string
+  signature: string[]
+  calldata: string[]
 }
