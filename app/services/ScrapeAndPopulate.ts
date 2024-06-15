@@ -1,6 +1,8 @@
+import { inject } from '@adonisjs/core'
 import PopulateDbFromResourceService from './PopulateDbFromResourceService.ts'
 import ScraperService from './ScraperService.ts'
 
+@inject()
 export default class ScrapeAndPopulate {
   constructor(
     private scraperService: ScraperService,
@@ -28,7 +30,7 @@ export default class ScrapeAndPopulate {
 
       // avoiding timeouts
       idx += 1
-      await this.sleep(1000)
+      await this.sleep(500)
     }
   }
 

@@ -14,12 +14,18 @@ import router from '@adonisjs/core/services/router'
 const TransactionsController = () => import('#controllers/TransactionsController')
 
 router.get('/', async () => {
+  return {
+    hello: 'world',
+  }
+})
+
+router.get('/populate', async () => {
   const scraper = new ScraperService()
   const pdb = new PopulateDbFromResourceService()
   const sp = new ScrapeAndPopulate(scraper, pdb)
   await sp.forBlockNumber(646087)
   return {
-    hello: 'world',
+    populated: true,
   }
 })
 

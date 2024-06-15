@@ -2,7 +2,6 @@ import Block from '#models/Block'
 import Transaction from '#models/Transaction'
 import SnetBlockTxns, { SnetBlockTxnsPartTransaction } from '../external/resources/SnetBlockTxns.ts'
 import SnetTransactionReceipt from '../external/resources/SnetTransactionReceipt.ts'
-import { TransactionType } from '../types.ts'
 
 export default class PopulateDbFromResourceService {
   async fromBlockTransactionResource(blkt: SnetBlockTxns) {
@@ -26,10 +25,9 @@ export default class PopulateDbFromResourceService {
     pt: Partial<SnetBlockTxnsPartTransaction>,
     tr: SnetTransactionReceipt
   ) {
-    const txnType = TransactionType[pt.type]
     const transaction = await Transaction.create({
       block_id: blockId,
-      type: txnType,
+      type: pt.type,
       transaction_hash: pt.transaction_hash,
       position: index,
       sender_address: pt.sender_address,

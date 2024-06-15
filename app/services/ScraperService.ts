@@ -1,12 +1,38 @@
+import Block from '#models/Block'
+import { inject } from '@adonisjs/core'
 import SnetBlockTxns from '../external/resources/SnetBlockTxns.ts'
 import TransactionReceipt from '../external/resources/SnetTransactionReceipt.ts'
 import { ScrapedResponse } from '../types.ts'
+import redis from '@adonisjs/redis/services/main'
 
+@inject()
 export default class ScraperService {
   API_ENDPOINT = 'https://free-rpc.nethermind.io/mainnet-juno'
   METHOD_SNET_GET_BLOCK_TRANSACTIONS = 'starknet_getBlockWithTxs'
   METHOD_SNET_GET_TRANSACTION_RECEIPT = 'starknet_getTransactionReceipt'
   METHOD_SNET_BLOCK_NUMBER = 'starknet_blockNumber'
+
+  async getPendingBlocksRange() {
+    const latestBlock = await this.getBlockNumber()
+    const latestBlockNo = latestBlock.result
+    let lastBlockInQueue = Number.parseInt((await redis.get('lastBlockInQueue')) ?? '0')
+
+    if (lastBlockInQueue >= latestBlockNo) {
+      return null
+    }
+
+    const latestBlockInDb = await Block.query()
+      .select('block_number')
+      .orderBy('block_number', 'desc')
+      .first()
+    const lastBlockNoInDb = latestBlockInDb?.block_number ?? latestBlockNo - 11
+    if (lastBlockNoInDb >= latestBlockNo) return null
+
+    return {
+      start: Math.max(lastBlockNoInDb + 1, lastBlockInQueue + 1),
+      end: latestBlockNo,
+    }
+  }
 
   async getBlockWithTransactions(blockNumber: number): Promise<ScrapedResponse<SnetBlockTxns>> {
     const response = await fetch(this.API_ENDPOINT, {

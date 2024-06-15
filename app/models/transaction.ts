@@ -1,9 +1,14 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
-import { TransactionExecutionStatus, TransactionFinalityStatus, TransactionType } from '../types.ts'
-import { ExecutionResources } from '../external/resources/SnetTransactionReceipt.ts'
+import type {
+  BlockStatus,
+  ExecutionResources,
+  TransactionFinalityStatus,
+  TransactionType,
+} from '../types.ts'
 import Block from './Block.ts'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { TransactionEvent } from '../external/resources/SnetTransactionReceipt.ts'
 
 export default class Transaction extends BaseModel {
   @column({ isPrimary: true })
@@ -13,7 +18,7 @@ export default class Transaction extends BaseModel {
   declare block_id: number
 
   @column()
-  declare type: number | null
+  declare type: TransactionType
 
   @column()
   declare transaction_hash: string
@@ -25,7 +30,7 @@ export default class Transaction extends BaseModel {
   declare actual_fee_unit: string
 
   @column()
-  declare execution_status: TransactionExecutionStatus
+  declare execution_status: BlockStatus
 
   @column()
   declare finality_status: TransactionFinalityStatus
@@ -34,6 +39,7 @@ export default class Transaction extends BaseModel {
   declare meta: {
     executionResources?: ExecutionResources
     calldata?: string[]
+    events?: TransactionEvent[]
   }
 
   @column()

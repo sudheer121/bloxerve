@@ -1,5 +1,4 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
-import { TransactionType } from '../../app/types.ts'
 
 export default class extends BaseSchema {
   protected tableName = 'transactions'
@@ -8,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.integer('block_id').unsigned().references('blocks.id').onDelete('CASCADE')
-      table.smallint('type').nullable()
+      table.string('type').nullable()
       table.string('transaction_hash')
       table.string('actual_fee_amount').nullable()
       table.string('actual_fee_unit').nullable()

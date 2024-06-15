@@ -1,0 +1,47 @@
+# docker compose file for nodejs with postgres and redis
+name: bloxerve
+
+services:
+  server:
+    container_name: server
+    build:
+      context: .
+      target: dependencies
+    ports:
+      - 3333:3333
+    volumes:
+      - ./:/home/node/app
+    env_file:
+      - .env.docker
+    restart: 'no'
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine3.19
+    volumes:
+      - datapg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - 5432:5432
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    volumes:
+      - dataredis:/data
+    ports:
+      - 6379:6379
+
+networks:
+  bloxerve:
+    driver: 'bridge'
+
+volumes:
+  datapg:
+  dataredis:
