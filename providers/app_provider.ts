@@ -19,7 +19,12 @@ export default class AppProvider {
   /**
    * The application has been booted
    */
-  async start() {
+  async start() {}
+
+  /**
+   * The process has been started
+   */
+  async ready() {
     queue.dispatch(
       CheckNewBlocksJob,
       {},
@@ -30,11 +35,6 @@ export default class AppProvider {
       }
     )
   }
-
-  /**
-   * The process has been started
-   */
-  async ready() {}
 
   /**
    * Preparing to shutdown the app

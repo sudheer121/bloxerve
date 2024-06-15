@@ -3,6 +3,7 @@ Local Setup (Docker)
 - Make sure ports 5432 and 6379 are free on your system, or change the ports in .env.docker
 
 ```
+cp .env.example .env
 docker-compse up -d --build
 ```
 - Easy Peezy :)
