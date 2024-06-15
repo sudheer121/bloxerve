@@ -1,4 +1,7 @@
 import type { ApplicationService } from '@adonisjs/core/types'
+import queue from '@rlanz/bull-queue/services/main'
+import CheckNewBlocksJob from '../app/jobs/CheckNewBlocksJob.ts'
+import env from '#start/env'
 
 export default class AppProvider {
   constructor(protected app: ApplicationService) {}
@@ -16,7 +19,17 @@ export default class AppProvider {
   /**
    * The application has been booted
    */
-  async start() {}
+  async start() {
+    queue.dispatch(
+      CheckNewBlocksJob,
+      {},
+      {
+        repeat: {
+          every: env.get('SCRAPE_INTERVAL'),
+        },
+      }
+    )
+  }
 
   /**
    * The process has been started

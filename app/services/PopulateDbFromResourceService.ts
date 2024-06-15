@@ -39,6 +39,7 @@ export default class PopulateDbFromResourceService {
       actual_fee_amount: tr.actual_fee?.amount,
       actual_fee_unit: tr.actual_fee?.unit,
       meta: {
+        events: tr.events,
         executionResources: tr.execution_resources,
         calldata: pt.calldata,
       },

@@ -38,7 +38,7 @@ export default defineConfig({
     () => import('@adonisjs/auth/auth_provider'),
     () => import('@rlanz/bull-queue/queue_provider'),
     () => import('@adonisjs/redis/redis_provider'),
-    () => import('#providers/app_provider')
+    () => import('#providers/app_provider'),
   ],
 
   /*
@@ -49,7 +49,7 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [() => import('#start/routes'), () => import('#start/kernel'), () => import('#start/qrunner')],
+  preloads: [() => import('#start/routes'), () => import('#start/kernel')],
 
   /*
   |--------------------------------------------------------------------------

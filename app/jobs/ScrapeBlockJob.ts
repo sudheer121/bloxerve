@@ -17,7 +17,6 @@ export default class ScrapeBlockJob extends Job {
    */
   async handle(payload: ScrapeBlockJobPayload) {
     console.log('ScrapeBlockJob payload', payload)
-    return;
     const scrapeAndPopulate = await app.container.make(ScrapeAndPopulate)
     console.log('Scraping for block number', payload.blockNumber)
     await scrapeAndPopulate.forBlockNumber(payload.blockNumber)

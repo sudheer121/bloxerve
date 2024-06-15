@@ -44,7 +44,7 @@ export default defineConfig({
 
     backoff: {
       type: 'exponential',
-      delay: 5000,
+      delay: 30000, // defence for scrape API timeout
     },
   },
 })

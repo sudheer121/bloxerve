@@ -4,10 +4,12 @@ import SnetBlockTxns from '../external/resources/SnetBlockTxns.ts'
 import TransactionReceipt from '../external/resources/SnetTransactionReceipt.ts'
 import { ScrapedResponse } from '../types.ts'
 import redis from '@adonisjs/redis/services/main'
+import { Exception } from '@adonisjs/core/exceptions'
+import env from '#start/env'
 
 @inject()
 export default class ScraperService {
-  API_ENDPOINT = 'https://free-rpc.nethermind.io/mainnet-juno'
+  API_ENDPOINT = env.get('SCRAPE_API')
   METHOD_SNET_GET_BLOCK_TRANSACTIONS = 'starknet_getBlockWithTxs'
   METHOD_SNET_GET_TRANSACTION_RECEIPT = 'starknet_getTransactionReceipt'
   METHOD_SNET_BLOCK_NUMBER = 'starknet_blockNumber'
@@ -27,6 +29,11 @@ export default class ScraperService {
       .first()
     const lastBlockNoInDb = latestBlockInDb?.block_number ?? latestBlockNo - 11
     if (lastBlockNoInDb >= latestBlockNo) return null
+
+    if (!lastBlockNoInDb) {
+      console.log('lastBlockNoInDb is null')
+      return null
+    }
 
     return {
       start: Math.max(lastBlockNoInDb + 1, lastBlockInQueue + 1),
@@ -79,6 +86,11 @@ export default class ScraperService {
         params: [],
       }),
     })
+    if (!response.ok) {
+      throw new Exception(
+        `${this.API_ENDPOINT} Failed with code ${response.status}, most probably rate limited`
+      )
+    }
     return (await response.json()) as any
   }
 }
