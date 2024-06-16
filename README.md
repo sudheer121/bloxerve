@@ -4,7 +4,7 @@ Local Setup (Docker)
 
 ```
 cp .env.example .env
-docker-compse up -d --build
+docker-compose up -d --build
 ```
 - Easy Peezy :)
 
